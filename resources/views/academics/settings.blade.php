@@ -81,9 +81,9 @@
                             <div class="col-md-4 mb-4">
                                 <div class="p-3 border bg-light shadow-sm">
                                     <h6>Attendance Type</h6>
-                                    <p class="text-danger">
+                                    <!--<p class="text-danger">
                                         <small><i class="bi bi-exclamation-diamond-fill me-2"></i> Do not change the type in the middle of a Semester.</small>
-                                    </p>
+                                    </p>-->
                                     <form action="{{route('school.attendance.type.update')}}" method="POST">
                                         @csrf
                                         <div class="form-check">
@@ -154,10 +154,8 @@
                                         <div class="mb-3">
                                             <p class="mt-2">Course Type:<sup><i class="bi bi-asterisk text-primary"></i></sup></p>
                                             <select class="form-select form-select-sm" name="course_type" aria-label=".form-select-sm" required>
-                                                <option value="Core">Core</option>
-                                                <option value="General">General</option>
-                                                <option value="Elective">Elective</option>
-                                                <option value="Optional">Optional</option>
+                                                <option value="Online">Online</option>
+                                                <option value="Classroom">Classroom</option>
                                             </select>
                                         </div>
                                         <div class="mb-3">
@@ -235,6 +233,59 @@
                                     </form>
                                 </div>
                             </div>
+
+                            <div class="col-md-4 mb-4">
+                                <div class="p-3 border bg-light shadow-sm">
+                                    <h6>Assign Teacher</h6>
+                                    <form action="{{route('school.teacher.assign')}}" method="POST">
+                                        @csrf
+                                        <input type="hidden" name="session_id" value="{{$current_school_session_id}}">
+                                        <div class="mb-3">
+                                            <p class="mt-2">Select Teacher:<sup><i class="bi bi-asterisk text-primary"></i></sup></p>
+                                            <select class="form-select form-select-sm" aria-label=".form-select-sm" name="teacher_id" required>
+                                                @isset($teachers)
+                                                    @foreach ($teachers as $teacher)
+                                                    <option value="{{$teacher->id}}">{{$teacher->first_name}} {{$teacher->last_name}}</option>
+                                                    @endforeach
+                                                @endisset
+                                            </select>
+                                        </div>
+                                        <div class="mb-3">
+                                            <p>Assign to semester:<sup><i class="bi bi-asterisk text-primary"></i></sup></p>
+                                            <select class="form-select form-select-sm" aria-label=".form-select-sm" name="semester_id" required>
+                                                @isset($semesters)
+                                                    @foreach ($semesters as $semester)
+                                                    <option value="{{$semester->id}}">{{$semester->semester_name}}</option>
+                                                    @endforeach
+                                                @endisset
+                                            </select>
+                                        </div>
+                                        <div>
+                                            <p>Assign to class:<sup><i class="bi bi-asterisk text-primary"></i></sup></p>
+                                            <select onchange="getSectionsAndCourses(this);" class="form-select form-select-sm" aria-label=".form-select-sm" name="class_id" required>
+                                                @isset($school_classes)
+                                                    <option selected disabled>Please select a class</option>
+                                                    @foreach ($school_classes as $school_class)
+                                                    <option value="{{$school_class->id}}">{{$school_class->class_name}}</option>
+                                                    @endforeach
+                                                @endisset
+                                            </select>
+                                        </div>
+                                        <div>
+                                            <p class="mt-2">Assign to section:<sup><i class="bi bi-asterisk text-primary"></i></sup></p>
+                                            <select class="form-select form-select-sm" id="section-select" aria-label=".form-select-sm" name="section_id" required>
+                                            </select>
+                                        </div>
+                                        <div>
+                                            <p class="mt-2">Assign to course:<sup><i class="bi bi-asterisk text-primary"></i></sup></p>
+                                            <select class="form-select form-select-sm" id="course-select" aria-label=".form-select-sm" name="course_id" required>
+                                            </select>
+                                        </div>
+                                        <button type="submit" class="mt-3 btn btn-sm btn-outline-primary"><i class="bi bi-check2"></i> Save</button>
+                                    </form>
+                                </div>
+                            </div>
+                            
                             <div class="col-md-4 mb-4">
                                 <div class="p-3 border bg-light shadow-sm">
                                     <h6>Allow Final Marks Submission</h6>

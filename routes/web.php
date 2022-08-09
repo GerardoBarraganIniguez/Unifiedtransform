@@ -40,6 +40,10 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::get('/juego', function () {
+    return view('index');
+});
+
 Auth::routes();
 
 Route::middleware(['auth'])->group(function () {
@@ -176,4 +180,5 @@ Route::middleware(['auth'])->group(function () {
     // Update password
     Route::get('password/edit', [UpdatePasswordController::class, 'edit'])->name('password.edit');
     Route::post('password/edit', [UpdatePasswordController::class, 'update'])->name('password.update');
+
 });

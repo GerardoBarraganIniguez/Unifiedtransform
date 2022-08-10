@@ -11,26 +11,28 @@ export default class Scene2 extends Phaser.Scene {
     
     preload(){
         //mapa
-        this.load.tilemapTiledJSON('map2',"/juego/assets/maps/map2.json");
-        this.load.image("TILES1", "/juego/assets/maps/TileSets/Terrain.png"); 
+        this.load.tilemapTiledJSON('map2',"assets/maps/map2.json");
+        this.load.image("TILES1", "assets/maps/TileSets/Terrain.png"); 
         //REY
-        this.load.spritesheet('Rey','/juego/assets/sprites/KingHuman/Idle.png', {frameWidth: 78, frameHeight: 58});
-        this.load.spritesheet('ReyC','/juego/assets/sprites/KingHuman/Run.png', {frameWidth: 78, frameHeight: 58});
-        this.load.spritesheet('ReyA','/juego/assets/sprites/KingHuman/Attack.png', {frameWidth: 78, frameHeight: 58});
+        this.load.spritesheet('Rey','assets/sprites/KingHuman/Idle.png', {frameWidth: 78, frameHeight: 58});
+        this.load.spritesheet('ReyC','assets/sprites/KingHuman/Run.png', {frameWidth: 78, frameHeight: 58});
+        this.load.spritesheet('ReyA','assets/sprites/KingHuman/Attack.png', {frameWidth: 78, frameHeight: 58});
         //puerquitos
-        this.load.spritesheet('Pig','/juego/assets/sprites/Pig/Idle.png', {frameWidth: 34, frameHeight: 28});
-        this.load.spritesheet('PigM','/juego/assets/sprites/Pig/Dead.png', {frameWidth: 34, frameHeight: 28});
-        this.load.spritesheet('PigG','/juego/assets/sprites/Pig/Hit.png', {frameWidth: 34, frameHeight: 28});
+        this.load.spritesheet('Pig','assets/sprites/Pig/Idle.png', {frameWidth: 34, frameHeight: 28});
+        this.load.spritesheet('PigM','assets/sprites/Pig/Dead.png', {frameWidth: 34, frameHeight: 28});
+        this.load.spritesheet('PigG','assets/sprites/Pig/Hit.png', {frameWidth: 34, frameHeight: 28});
         //infoBox
-        this.load.image("infoBoxIdle", "/juego/assets/sprites/Box/Idle.png"); 
-        this.load.image("infoBox1", "/juego/assets/sprites/Box/boxPiece1.png"); 
-        this.load.image("infoBox2", "/juego/assets/sprites/Box/boxPiece2.png"); 
-        this.load.image("infoBox3", "/juego/assets/sprites/Box/boxPiece3.png"); 
-        this.load.image("infoBox4", "/juego/assets/sprites/Box/boxPiece4.png"); 
-        this.load.image("infoBoxHit", "/juego/assets/sprites/Box/Hit.png"); 
+        this.load.image("infoBoxIdle", "assets/sprites/Box/Idle.png"); 
+        this.load.image("infoBox1", "assets/sprites/Box/boxPiece1.png"); 
+        this.load.image("infoBox2", "assets/sprites/Box/boxPiece2.png"); 
+        this.load.image("infoBox3", "assets/sprites/Box/boxPiece3.png"); 
+        this.load.image("infoBox4", "assets/sprites/Box/boxPiece4.png"); 
+        this.load.image("infoBoxHit", "assets/sprites/Box/Hit.png"); 
+
     }
 
     create(){
+        
         //mapa
         const map2 = this.make.tilemap({ key: "map2", tileWidth: 32, tileHeight: 32});
         //solidos
@@ -42,9 +44,9 @@ export default class Scene2 extends Phaser.Scene {
 
         //Pigs
         this.pigGroup = new PigGroup(this.physics.world, this);
-        this.pigGroup.crearPig(200,200);
-        this.pigGroup.crearPig(300,200);
-        this.pigGroup.crearPig(400,200);
+        this.pigGroup.crearPig(600,200);
+        this.pigGroup.crearPig(1000,200);
+        this.pigGroup.crearPig(1500,200);
 
         //infoBox
         this.infoBoxGroup = new InfoBoxGroup(this.physics.world,this);
@@ -69,13 +71,36 @@ export default class Scene2 extends Phaser.Scene {
         //camara
         this.cameras.main.setBounds(0, 0, map2.widthInPixels, map2.heightInPixels);
         this.cameras.main.startFollow(this.rey);
-        //this.cameras.main.setBackgroundColor('#ccccff');      
+        //this.cameras.main.setBackgroundColor('#ccccff');     
+        
+        
     }
 
     update(){
         this.rey.update();
+        this.enemyAttack();
+        
     }
 
+    enemyAttack(){
+        for (const pig of this.pigGroup.getChildren()) {
+            if (Phaser.Math.Distance.BetweenPoints(pig, this.rey) < 100) {
+                // if player to left of enemy AND enemy moving to right (or not moving)
+                if (this.rey.x < pig.x && pig.body.velocity.x >= 0) {
+                    // move enemy to left
+                    pig.body.velocity.x = -50;
+                }
+                // if player to right of enemy AND enemy moving to left (or not moving)
+                else if (this.rey.x > pig.x && pig.body.velocity.x <= 0) {
+                    // move enemy to right
+                    pig.body.velocity.x = 50;
+                }
+            }
+            else{
+                pig.body.velocity.x = 0;
+            }
+          } 
+    }
     
     hitInfoBox(mazo,infoBox){
         //puntos centrales de la camara para poder mostrar el texto en pantalla
@@ -83,8 +108,10 @@ export default class Scene2 extends Phaser.Scene {
         infoBox.anims.play('destroyingInfoBox');
         //esperar un segundo y despues destruye la cajita
         this.time.addEvent({callback: () => {infoBox.destroy()}, delay: 1000, callbackScope: this, loop: true});
-        this.textoPrueba = this.add.text(x-500, y-300, 'Se desplegará información a cerca del tema actual, este texto solo es una prueba para mostrar como se vería la información traida de la base de datos aquí en el juego ya no se que mas poner lorem ipsum ',{font: "25px", color: 'white', stroke: '#000', strokeThickness: 3});
+        this.textoPrueba = this.add.text(x-500, y-300, 'Se desplegará información a cerca del tema actual, este texto solo es una prueba para mostrar como se vería la información traida de la base de datos aquí en el juego ya no se que mas poner lorem ipsum ',{font: "25px", color: 'white', backgroundColor: 'rgba(239,128,229,0.1)', stroke: 'black', strokeThickness: 3});
+        //límite en pantalla
         this.textoPrueba.setWordWrapWidth(1000, true);
+        
     }
 
     hitKing(rey,pig){

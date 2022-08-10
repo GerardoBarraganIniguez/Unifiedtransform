@@ -7,31 +7,31 @@ export default class Scene1 extends Phaser.Scene {
     preload(){
         
         //Mapa
-        this.load.image("TILES1", "/juego/assets/maps/TileSets/Terrain.png"); 
-        this.load.image("TILES2", "/juego/assets/maps/TileSets/Decorations.png"); 
-        this.load.tilemapTiledJSON("map","/juego/assets/maps/map1.json");
-        this.load.spritesheet('botonStart','/juego/assets/sprites/botones/All-in-one.png', {frameWidth: 27, frameHeight: 10});
+        this.load.image("TILES1", "assets/maps/TileSets/Terrain.png"); 
+        this.load.image("TILES2", "assets/maps/TileSets/Decorations.png"); 
+        this.load.tilemapTiledJSON("map","assets/maps/map1.json");
+        this.load.spritesheet('botonStart','assets/sprites/botones/All-in-one.png', {frameWidth: 27, frameHeight: 10});
 
         //REY
-        this.load.spritesheet('ReyEstatico','/juego/assets/sprites/KingHuman/Idle.png', {frameWidth: 78, frameHeight: 58});
+        this.load.spritesheet('ReyEstatico','assets/sprites/KingHuman/Idle.png', {frameWidth: 78, frameHeight: 58});
         
         //puerquitos
-        this.load.spritesheet('PuercoConCerillo','/juego/assets/sprites/PigWithaMatch/MatchOn.png', {frameWidth: 26, frameHeight: 18});
-        this.load.spritesheet('PuercoRey','/juego/assets/sprites/KingPig/Idle.png', {frameWidth: 38, frameHeight: 28});
-        this.load.spritesheet('PuercoBomba','/juego/assets/sprites/PigBomb/Idle.png', {frameWidth: 26, frameHeight: 26});
-        this.load.spritesheet('PuercoCargandoCaja','/juego/assets/sprites/PigThrowingaBox/Idle.png', {frameWidth: 26, frameHeight: 30});
-        this.load.spritesheet('cajaPig','/juego/assets/sprites/PigHideintheBox/LookingOut.png', {frameWidth: 26, frameHeight: 20});
+        this.load.spritesheet('PuercoConCerillo','assets/sprites/PigWithaMatch/MatchOn.png', {frameWidth: 26, frameHeight: 18});
+        this.load.spritesheet('PuercoRey','assets/sprites/KingPig/Idle.png', {frameWidth: 38, frameHeight: 28});
+        this.load.spritesheet('PuercoBomba','assets/sprites/PigBomb/Idle.png', {frameWidth: 26, frameHeight: 26});
+        this.load.spritesheet('PuercoCargandoCaja','assets/sprites/PigThrowingaBox/Idle.png', {frameWidth: 26, frameHeight: 30});
+        this.load.spritesheet('cajaPig','assets/sprites/PigHideintheBox/LookingOut.png', {frameWidth: 26, frameHeight: 20});
 
         //Titulo, cajas, armas, dialogos
-        this.load.image("title", "/juego/assets/sprites/KingsAndPigs.png"); 
-        this.load.image("cannon", "/juego/assets/sprites/Cannon/Idle.png"); 
-        this.load.image("caja", "/juego/assets/sprites/Box/Idle.png"); 
-        this.load.image("puerta", "/juego/assets/sprites/Door/Idle.png");
-        this.load.image("bomba", "/juego/assets/sprites/Bomb/bomb.png");
-        this.load.spritesheet('DialAtaque','/juego/assets/sprites/DialogueBoxes/Out.png', {frameWidth: 24, frameHeight: 8});
+        this.load.image("title", "assets/sprites/KingsAndPigs.png"); 
+        this.load.image("cannon", "assets/sprites/Cannon/Idle.png"); 
+        this.load.image("caja", "assets/sprites/Box/Idle.png"); 
+        this.load.image("puerta", "assets/sprites/Door/Idle.png");
+        this.load.image("bomba", "assets/sprites/Bomb/bomb.png");
+        this.load.spritesheet('DialAtaque','assets/sprites/DialogueBoxes/Out.png', {frameWidth: 24, frameHeight: 8});
 
         //musica
-        this.load.audio("MusicBackground", "/juego/assets/music/MainMenu.wav");
+        this.load.audio("MusicBackground", "assets/music/MainMenu.wav");
         
         
     }
